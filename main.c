@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,8 +43,3 @@ int main(){
         fprintf(fichier, "\n%s;%s;%s;%s;%s;%s;%s", nom, prenom, numero, cp, ville, email, job);   
     return 0;
 }
-=======
-// FAITE PAS DE LA MERDE
-
-#include <stdio.h>
->>>>>>> ab40b66757050cb68eac4ddd00b8551e03ead0d2
