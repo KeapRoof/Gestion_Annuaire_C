@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
+void modifier_mail_client(nom_annuaire, mel_p, nv_mel_p);
 
 int main(){
     // Ouverture du fichier csv
@@ -42,4 +45,9 @@ int main(){
     if(doublon == 0)
         fprintf(fichier, "\n%s;%s;%s;%s;%s;%s;%s", nom, prenom, numero, cp, ville, email, job);   
     return 0;
+}
+
+void modifier_mail_client(nom_annuaire, mel_p, nv_mel_p)
+{
+
 }
