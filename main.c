@@ -7,9 +7,9 @@
 //assert obligatoire
 //fichier .h & .c séparés
 
-int affichage_console();
+int affichage_console(void);
 int ajouter_client();
-// void modifier_mail_client(char nom_annuaire, char mel_p, char nv_mel_p);
+void modifier_mail_client();
 
 int main(void)
 {    
@@ -17,6 +17,12 @@ int main(void)
     if (res == 1)
     {
         ajouter_client();
+    }
+    if (res == 2)
+    {
+        modifier_mail_client();
+    } else {
+        printf("Erreur !");
     }
 }
 
@@ -70,53 +76,61 @@ int ajouter_client()
 
 int affichage_console(void)
 {
+    //afficher une console pour faire des choix de l'API
     int n = 0;
     printf("---------------Bonjour !---------------");
     printf("\n");
-    printf("1. ajouter un client\n");
-    printf("2. modifier le mail d'un client\n");
-    printf("---------------------------------------\n");
+    printf("1. Ajouter un client\n");
+    printf("2. Modifier le mail d'un client\n");
     scanf("%d", &n);
+    printf("---------------------------------------\n");
     if (0 < n < 3);
     {
-        return n;        
+        return n;
     }
 }
 
+void modifier_mail_client()
+{
+    char mel_p[20], nv_mel_p[20];
 
-// void modifier_mail_client(nom_annuaire, mel_p, nv_mel_p)
-// {
-//     // modification de l'adresse mail d'un contact
+    // modification de l'adresse mail d'un contact
+    FILE *fichier = fopen("annuaire.csv", "r+");
 
-//     FILE *fichier = fopen("annuaire.csv", "r+");
+    if(fichier == NULL){
+        perror("Erreur :");
+        exit(EXIT_FAILURE);
+    }
 
-//     if(fichier == NULL){
-//         perror(fichier);
-//         exit(EXIT_FAILURE);
-//     }
+    printf("Email : ");
+    scanf("%s", mel_p);
 
-//     // Vérification de l'existence du mail
+    // Vérification de l'existence du mail
 
-//     char ligne[100];
-//     int doublon = 0;
+    char ligne[100];
+    int doublon = 0;
 
-//     while(fgets(ligne, 100, fichier) != NULL)
-//     {
-//         if(strstr(ligne, mel_p) != NULL)
-//         {
-//             doublon = 1;
-//             break;
-//         }
-//         else
-//             printf("le mail n'existe pas !\n");
-//     }
+    while(fgets(ligne, 100, fichier) != NULL)
+    {
+        if(strstr(ligne, mel_p) != NULL)
+        {
+            doublon = 1;
+            break;
+        }
+        else {
+            printf("Le mail n'existe pas !\n");
+            break;
+        }
+    }
 
-//     // Modification du mail dans le fichier
+    // Modification du mail dans le fichier
 
-//     if(doublon == 1)
-//         fprintf(fichier, "%s",nv_mel_p);
+    if(doublon == 1)
+        printf("Nouvel email : ");
+        scanf("%s", nv_mel_p);
+        fprintf(fichier,"%s",nv_mel_p);
     
-//     // Fermeture du fichier
+    // Fermeture du fichier
 
-//     fclose(fichier);
-// }
+    fclose(fichier);
+}
