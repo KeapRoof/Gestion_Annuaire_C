@@ -8,6 +8,6 @@
 //fichier .h & .c séparés
 
 int main(void) {
-    ajouter_client("annuaire.csv","b","c","d","e","f","g","h");
-    supprimer_client("annuaire.csv","g");
+    ajouter_client("annuaire.csv", "Dupont", "Jean", "75000", "Paris", "0123456789","jean.dupont@gmail.com", "Ingenieur");
+    supprimer_client("annuaire.csv", "david.perrin@server.fr");
 }
