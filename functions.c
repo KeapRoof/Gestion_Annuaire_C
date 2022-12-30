@@ -62,17 +62,14 @@ void modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char
     printf("Impossible d'ouvrir le fichier\n");
     return;
   }
-
   // Ouvre le fichier en mode "w" (ecriture)
   FILE* sortie = fopen("resultat_modifier_mel.txt", "w");
   if (sortie == NULL) {
     printf("Impossible d'ouvrir le fichier sortie\n");
     return;
   }
-
   // Lit le fichier ligne par ligne
   char line[1024];
-
   while (fgets(line, 1024, file)) {
     // Remplace l'ancien par le nouveau mail si il est trouvé dans le fichier
     if (strstr(line, mel_p)) {
@@ -83,7 +80,6 @@ void modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char
       fputs(line, sortie);
     }
   }
-
   fclose(file);
   fclose(sortie);
 }
