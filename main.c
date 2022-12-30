@@ -7,121 +7,12 @@
 //assert obligatoire
 //fichier .h & .c séparés
 
-int affichage_console();
-int ajouter_client();
-// void modifier_mail_client(char nom_annuaire, char mel_p, char nv_mel_p);
-
-int main(void)
-{    
-    int res = affichage_console();
-    if (res == 1)
-    {
-        ajouter_client();
-    }
+int main(void) {
+    ajouter_client("annuaire.csv","b","c","d","e","f","g","h");
+    supprimer_client("annuaire.csv","g");
 }
 
-int ajouter_client()
-{
-    // Ouverture du fichier csv
-    FILE *fichier = fopen("annuaire.csv", "a+");
-    if(fichier == NULL){
-        printf("Le fichier n'existe pas");
-        return 0;
-    }
-
-    // Ajout d'une ligne dans le fichier csv sans doublon
-
-    // Déclaration des variables
-    char nom[20],prenom[20],cp[20],ville[20],numero[20],email[20],job[20];
-
-    // Saisie des informations
-    printf("Nom : ");
-    scanf("%s", nom);
-    printf("Prenom : ");
-    scanf("%s", prenom);
-    printf("Code postal : ");
-    scanf("%s", cp);
-    printf("Ville : ");
-    scanf("%s", ville);    
-    printf("Numero : ");
-    scanf("%s", numero);
-    printf("Email : ");
-    scanf("%s", email);
-    printf("Job : ");
-    scanf("%s", job);
-
-    // Vérification de l'existence du contact
-    char ligne[100];
-    int doublon = 0;
-    while(fgets(ligne, 100, fichier) != NULL){
-        if(strstr(ligne, nom) != NULL && strstr(ligne, prenom) != NULL){
-            doublon = 1;
-            printf("Ce contact existe deja !\n");
-            break;
-        }
-    }
-
-    // Ajout du contact dans le fichier
-
-    if(doublon == 0)
-        fprintf(fichier, "\n%s;%s;%s;%s;%s;%s;%s", nom, prenom, numero, cp, ville, email, job);   
-    return 0;
-}
-
-int affichage_console(void)
-{
-    int n = 0;
-    printf("---------------Bonjour !---------------");
-    printf("\n");
-    printf("1. ajouter un client\n");
-    printf("2. modifier le mail d'un client\n");
-    printf("---------------------------------------\n");
-    scanf("%d", &n);
-    if (0 < n < 3);
-    {
-        return n;        
-    }
-}
-
-
-// void modifier_mail_client(nom_annuaire, mel_p, nv_mel_p)
-// {
-//     // modification de l'adresse mail d'un contact
-
-//     FILE *fichier = fopen("annuaire.csv", "r+");
-
-//     if(fichier == NULL){
-//         perror(fichier);
-//         exit(EXIT_FAILURE);
-//     }
-
-//     // Vérification de l'existence du mail
-
-//     char ligne[100];
-//     int doublon = 0;
-
-//     while(fgets(ligne, 100, fichier) != NULL)
-//     {
-//         if(strstr(ligne, mel_p) != NULL)
-//         {
-//             doublon = 1;
-//             break;
-//         }
-//         else
-//             printf("le mail n'existe pas !\n");
-//     }
-
-//     // Modification du mail dans le fichier
-
-//     if(doublon == 1)
-//         fprintf(fichier, "%s",nv_mel_p);
-    
-//     // Fermeture du fichier
-
-//     fclose(fichier);
-// }
-
-void ajout_de_cli(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) {
+void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) {
   // Auteur : Haithem HADJ AZZEM
   // Ouvre le fichier en mode "a" (ajout)
   FILE* file = fopen(nom_annuaire, "a");
