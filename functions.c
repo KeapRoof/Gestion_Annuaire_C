@@ -1,3 +1,11 @@
+/**
+ * @file functions.c
+ * @author Haithem, Aziz, Clement
+ * @brief fichiers contenant les fonctions
+ * @version 0.1
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -86,22 +94,23 @@ void modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char
 
 char* remplacer_element(const char* nom_chaine, const char* ancien_element, const char* nouvel_element)
 { 
+  // Auteur : Clement LE GOASTER
   char* ligne_modifiee; 
   int i, j = 0; 
   int longueur_ancien_element = strlen(ancien_element); 
   int longueur_nouvel_element = strlen(nouvel_element); 
-// Comptage du nombre d'occurence de l'ancien element
+  // Comptage du nombre d'occurence de l'ancien element
   for (i = 0; nom_chaine[i] != '\0'; i++) { 
     if (strstr(&nom_chaine[i], ancien_element) == &nom_chaine[i]) { 
       j++;  
       i += longueur_ancien_element - 1; 
     } 
   } 
-// Création d'une chaine de caractères de longueur suffisante 
+  // Création d'une chaine de caractères de longueur suffisante 
   ligne_modifiee = (char*)malloc(i + j * (longueur_nouvel_element - longueur_ancien_element) + 1); 
   i = 0; 
   while (*nom_chaine) { 
-// Modifie les deux elements et renvoie une chaine avec les element echangés
+  // Modifie les deux elements et renvoie une chaine avec les element echangés
     if (strstr(nom_chaine, ancien_element) == nom_chaine) { 
       strcpy(&ligne_modifiee[i], nouvel_element); 
         i += longueur_nouvel_element; 
@@ -112,6 +121,6 @@ char* remplacer_element(const char* nom_chaine, const char* ancien_element, cons
   } 
   ligne_modifiee[i] = '\0'; 
   return ligne_modifiee;
-// Libère l'espace mémoire alloué précedemment avec malloc
+  // Libère l'espace mémoire alloué précedemment avec malloc
   free(ligne_modifiee); 
 } 

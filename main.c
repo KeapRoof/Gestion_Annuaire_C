@@ -1,3 +1,11 @@
+/**
+ * @file main.c
+ * @author Haithem, Aziz, Clement
+ * @brief main (executions des fonctions)
+ * @version 0.1
+ * 
+ */
+
 #include <stdio.h>
 #include <assert.h>
 
