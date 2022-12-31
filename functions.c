@@ -73,7 +73,7 @@ void modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char
   while (fgets(line, 1024, file)) {
     // Remplace l'ancien par le nouveau mail si il est trouvé dans le fichier
     if (strstr(line, mel_p)) {
-      remplacer_mot(line, mel_p, nv_mel_p);
+      remplacer_element(line, mel_p, nv_mel_p);
       fputs((remplacer_element(line, mel_p, nv_mel_p)), sortie);
       printf("Mail remplacé\n");
     } else {
@@ -90,7 +90,7 @@ char* remplacer_element(const char* nom_chaine, const char* ancien_element, cons
   int i, j = 0; 
   int longueur_ancien_element = strlen(ancien_element); 
   int longueur_nouvel_element = strlen(nouvel_element); 
-// Comptage du nombre d'occurence de l'ancien element (facultatif)
+// Comptage du nombre d'occurence de l'ancien element
   for (i = 0; nom_chaine[i] != '\0'; i++) { 
     if (strstr(&nom_chaine[i], ancien_element) == &nom_chaine[i]) { 
       j++;  
@@ -111,5 +111,7 @@ char* remplacer_element(const char* nom_chaine, const char* ancien_element, cons
       } 
   } 
   ligne_modifiee[i] = '\0'; 
-  return ligne_modifiee; 
+  return ligne_modifiee;
+// Libère l'espace mémoire alloué précedemment avec malloc
+  free(ligne_modifiee); 
 } 

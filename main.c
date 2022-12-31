@@ -9,5 +9,6 @@
 
 int main(void) {
     ajouter_client("annuaire.csv", "Dupont", "Jean", "75000", "Paris", "0123456789","jean.dupont@gmail.com", "Ingenieur");
-    modifier_mel_client("annuaire.csv", "antoine.boucher@server.fr", "antoine.viviviivvivi@server.fr");
+    supprimer_client("annuaire.csv", "jean.dupont@gmail.com");
+    modifier_mel_client("annuaire.csv", "richard.rey-du-letellier@server.fr", "test@server.fr");
 }
