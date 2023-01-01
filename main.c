@@ -21,9 +21,10 @@ int main(void) {
     printf("2. Modifier le mel d'un client\n");
     printf("3. Modifier autres elements que le mel d'un client\n");
     printf("4. Supprimer un client\n");
-    printf("5. Filtrer les clients avec des données manquantes\n");
-    printf("6. Filtrer un champ\n");
-    printf("7. Filtrer en combinant deux champs\n");
+    printf("5. Trier les clients par leur nom\n");
+    printf("6. Filtrer les clients avec des données manquantes\n");
+    printf("7. Filtrer un champ\n");
+    printf("8. Filtrer en combinant deux champs\n");
     printf("--------------------------------------------------\n");
     printf("-> ");
     scanf("%d", &choix);
@@ -37,6 +38,9 @@ int main(void) {
         break;
     case 4:
         supprimer_client("annuaire.csv", "jean.dupont@gmail.com");
+        break;
+    case 5:
+        trier_clients_par_nom("annuaire.csv");
         break;
     default:
         printf("Erreur lors de la saisie OU fonctionnalité non disponible pour le moment\n");

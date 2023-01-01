@@ -148,3 +148,20 @@ char* remplacer_element(const char* nom_chaine, const char* ancien_element, cons
   // Libère l'espace mémoire alloué précedemment avec malloc
   free(ligne_modifiee); 
 } 
+
+int trier_clients_par_nom(const char* nom_annuaire) 
+{
+  // Auteur : Clement LE GOASTER
+  // Ouvre le fichier en mode "r" (lecture)
+  FILE* file = fopen(nom_annuaire, "r");
+  if (file == NULL) {
+    printf("Impossible d'ouvrir l'annuaire\n");
+    return -1; // Erreur car il est impossible d'ouvrir l'annuaire
+  }
+  // Ouvre le fichier en mode "w" (ecriture)
+  FILE* sortie = fopen("resultat_trier_par_nom.txt", "w");
+  if (sortie == NULL) {
+    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
+    return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
+  }
+}
