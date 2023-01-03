@@ -190,17 +190,20 @@ int trier_clients_par_nom(const char* nom_annuaire)
     printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
     return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
   }
-  // int i, j, temp; // Tri par insertion, qui place les lignes dans l'ordre souhaité
-  // int N=12;
-  // int a[12] = {3, 5, 2, 4, 9, 1, 8, 6, 7, 0};
-  // for (i = 1; i < N; i++) {
-  //   j = i;
-  //   while (j > 0 && a[j - 1] > a[j]) {
-  //     temp = a[j];
-  //     a[j] = a[j - 1];
-  //     a[j - 1] = temp;
-  //     j--;
-  //   }
-  // }
-  // return 0;
+  // Lit le fichier ligne par ligne
+  char line[1024];
+  while (fgets(line, 1024, file)) {
+  // Tri par insertion, qui place les lignes dans l'ordre souhaité
+    line[1]; // terminer le tri
+    int i, j, temp; 
+    for (i = 1; i < 40; i++) {
+      j = i;
+      while (j > 0 && line[j - 1] > line[j]) {
+        temp = line[j];
+        line[j] = line[j - 1];
+        line[j - 1] = temp;
+        j--;
+      }
+    }
+  }
 }

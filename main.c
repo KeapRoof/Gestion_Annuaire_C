@@ -34,7 +34,18 @@ int main(void) {
         ajouter_client("annuaire.csv", "Dupont", "Jean", "75000", "Paris", "0123456789","jean.dupont@gmail.com", "Ingenieur");
         break;
     case 2:
-        modifier_mel_client("annuaire.csv", "richard.rey-du-letellier@server.fr", "richard.rey-du-letellier@server.fr");
+        char* annuaire;
+        char* mel_p;
+        char* nv_mel_p;
+        // rendre le tableau dinamique
+        printf("Entrez le nom de l'annuaire à lire (avec l'extension) : \n");
+        scanf("%s", annuaire);
+        printf("Entrez le mail à remplacer : \n");
+        scanf("%s", mel_p);
+        printf("Entrez le nouvel email : \n");
+        scanf("%s", nv_mel_p);
+        printf("\n");
+        modifier_mel_client(annuaire, mel_p, nv_mel_p);
         break;
     case 4:
         supprimer_client("annuaire.csv", "jean.dupont@gmail.com");
