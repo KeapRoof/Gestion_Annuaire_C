@@ -84,6 +84,32 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
     fclose(file);
     return -3; // Erreur car les chaines sont vides
   }
+  // Verifie si l'adresse mail est valide (@ & . présents)
+  if (strchr(mel_p, '@') == NULL) {
+    printf("L'adresse mel à remplacer est invalide : pas de (@)\n");
+    remove("resultat_modifier_mel.txt");
+    fclose(file);
+    return -4; // Erreur car l'adresse mail est invalide
+  }
+  if (strchr(mel_p, '.') == NULL) { // Ne fonctionne pas si il y a un point dans la première partie de l'adresse
+    printf("L'adresse mel à remplacer est invalide : pas de (.)\n");
+    remove("resultat_modifier_mel.txt");
+    fclose(file);
+    return -5; // Erreur car l'adresse mail est invalide
+  }
+  // Verifie si l'adresse mail est valide (@ & . présents)
+  if (strchr(nv_mel_p, '@') == NULL) {
+    printf("La nouvelle adresse mel est invalide : pas de (@)\n");
+    remove("resultat_modifier_mel.txt");
+    fclose(file);
+    return -6; // Erreur car la nouvelle adresse mail est invalide
+  }
+  if (strchr(nv_mel_p, '.') == NULL) { // Ne fonctionne pas si il y a un point dans la première partie de l'adresse
+    printf("La nouvelle adresse mel est invalide : pas de (.)\n");
+    remove("resultat_modifier_mel.txt");
+    fclose(file);
+    return -7; // Erreur car la nouvelle adresse mail est invalide
+  }
   // Lit le fichier ligne par ligne
   char line[1024];
   while (fgets(line, 1024, file)) {
@@ -92,7 +118,7 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
     printf("La nouvelle adresse est déjà dans l'annuaire\n");
     remove("resultat_modifier_mel.txt");
     fclose(file);
-    return -4; // Erreur car la nouvelle adresse est déja présente dans le fichier
+    return -8; // Erreur car la nouvelle adresse est déja présente dans le fichier
     }
     if (strstr(line, mel_p)) {
       remplacer_element(line, mel_p, nv_mel_p);
@@ -107,7 +133,7 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
   printf("L'adresse à remplacer n'est pas dans l'annuaire\n");
   remove("resultat_modifier_mel.txt");
   fclose(file);
-  return -5; // Erreur car l'adresse à remplacer n'est pas dans l'annuaire
+  return -9; // Erreur car l'adresse à remplacer n'est pas dans l'annuaire
   }
   fclose(sortie);
   fclose(file);
@@ -164,4 +190,17 @@ int trier_clients_par_nom(const char* nom_annuaire)
     printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
     return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
   }
+  // int i, j, temp; // Tri par insertion, qui place les lignes dans l'ordre souhaité
+  // int N=12;
+  // int a[12] = {3, 5, 2, 4, 9, 1, 8, 6, 7, 0};
+  // for (i = 1; i < N; i++) {
+  //   j = i;
+  //   while (j > 0 && a[j - 1] > a[j]) {
+  //     temp = a[j];
+  //     a[j] = a[j - 1];
+  //     a[j - 1] = temp;
+  //     j--;
+  //   }
+  // }
+  // return 0;
 }
