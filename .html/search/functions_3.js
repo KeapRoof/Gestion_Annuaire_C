@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['supprimer_5fclient_19',['supprimer_client',['../functions_8c.html#ae4002655b0d879a1099b71c2cbe95228',1,'supprimer_client(const char *nom_annuaire, const char *mel_p):&#160;functions.c'],['../functions_8h.html#ae4002655b0d879a1099b71c2cbe95228',1,'supprimer_client(const char *nom_annuaire, const char *mel_p):&#160;functions.c']]]
+  ['main_23',['main',['../main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main.c']]],
+  ['modifier_5fmel_5fclient_24',['modifier_mel_client',['../functions_8c.html#a681785c6289e7f26ea357a56fc088ce3',1,'modifier_mel_client(const char *nom_annuaire, const char *mel_p, const char *nv_mel_p):&#160;functions.c'],['../functions_8h.html#a681785c6289e7f26ea357a56fc088ce3',1,'modifier_mel_client(const char *nom_annuaire, const char *mel_p, const char *nv_mel_p):&#160;functions.c']]]
 ];

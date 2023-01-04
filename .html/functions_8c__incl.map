@@ -1,6 +1,6 @@
 <map id="functions.c" name="functions.c">
-<area shape="rect" id="node1" title=" " alt="" coords="132,5,225,32"/>
-<area shape="rect" id="node2" href="$functions_8h.html" title=" " alt="" coords="131,80,226,107"/>
+<area shape="rect" id="node1" title="Fichier contenant le code des fonctions de l&#39;API." alt="" coords="132,5,225,32"/>
+<area shape="rect" id="node2" href="$functions_8h.html" title="Fichier d&#39;en&#45;tête pour les fonctions contenues dans functions.c &amp; dans le main." alt="" coords="131,80,226,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,155,72,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="97,155,167,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="191,155,262,181"/>
