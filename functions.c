@@ -1,35 +1,38 @@
+/**
+ * @file functions.c
+ * @author Clément, Haithem, Aziz
+ * @brief Fichier contenant le code des fonctions de l'API
+ */
+
 #include "functions.h"
 
-void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) 
+int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) 
 {
   // Auteur : Haithem HADJ AZZEM
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "a" (ajout)
-  FILE* file = fopen(nom_annuaire, "a");
-  if (file == NULL) {
-    printf("Impossible d'ouvrir le fichier\n");
-    return;
+  FILE* sortie = ecriture_annuaire_clients("resultat_ajouter.txt", "a");
+  if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
+    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // ecrit les informations du client dans le fichier
-  fprintf(file, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
+  afficher_annuaire_clients(file, sortie);
+  fprintf(sortie, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
   printf("Le client a bien été ajouté à l'annuaire\n");
   // Ferme le fichier
   fclose(file);
+  fclose(sortie);
 }
 
-void supprimer_client(const char* nom_annuaire, const char* mel_p) 
+int supprimer_client(const char* nom_annuaire, const char* mel_p) 
 {
   // Auteur : Haithem HADJ AZZEM
   // Ouvre le fichier en mode "r" (lecture)
-  FILE* file = fopen(nom_annuaire, "r");
-  if (file == NULL) {
-      printf("Impossible d'ouvrir le fichier\n");
-      return;
-  }
-  // Ouvre un fichier temporaire en mode "w" (écriture)
-  FILE* temp = fopen("temp.csv", "w");
-  if (temp == NULL) {
-      printf("Impossible d'ouvrir le fichier temporaire\n");
-      return;
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
+  // Ouvre le fichier en mode "w" (ecriture)
+  FILE* temp = ecriture_annuaire_clients("temp.csv", "w");
+  if ((file == NULL || temp == NULL) || (file == NULL && temp == NULL)) {
+    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // Lit le fichier ligne par ligne
   char line[1024];
@@ -54,17 +57,11 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
   // Auteur : Clement LE GOASTER
   int cpt = 0; // Compteur pour savoir si l'adresse à remplacer est dans l'annuaire
   // Ouvre le fichier en mode "r" (lecture)
-  FILE* file = fopen(nom_annuaire, "r");
-  if (file == NULL) {
-    printf("Impossible d'ouvrir l'annuaire\n");
-    return -1; // Erreur car il est impossible d'ouvrir l'annuaire
-  }
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
-  FILE* sortie = fopen("resultat_modifier_mel.txt", "w");
-  if (sortie == NULL) {
-    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
-    fclose(file);
-    return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
+  FILE* sortie = ecriture_annuaire_clients("resultat_trier_par_nom.txt", "w");
+  if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
+    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // Verifie si les chaines ne sont pas des chaines vides
   if ((strlen(mel_p) == 0 && strlen(nv_mel_p) == 0) || (strlen(mel_p) == 0 || strlen(nv_mel_p) == 0))
@@ -169,17 +166,11 @@ int trier_clients_par_nom(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
   // Ouvre le fichier en mode "r" (lecture)
-  FILE* file = fopen(nom_annuaire, "r");
-  if (file == NULL) {
-    printf("Impossible d'ouvrir l'annuaire\n");
-    return -1; // Erreur car il est impossible d'ouvrir l'annuaire
-  }
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
-  FILE* sortie = fopen("resultat_trier_par_nom.txt", "w");
-  if (sortie == NULL) {
-    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
-    fclose(file);
-    return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
+  FILE* sortie = ecriture_annuaire_clients("resultat_trier_par_nom.txt", "w");
+  if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
+    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // Lit le fichier ligne par ligne
   char* lines[1000];
@@ -217,4 +208,40 @@ int trier_clients_par_nom(const char* nom_annuaire)
   fclose(sortie);
   fclose(file);
   return 0; // Fonctionnement normal
+}
+
+FILE* chargement_annuaire_clients(const char* nom_annuaire)
+{
+  // Auteur : Clement LE GOASTER
+  FILE* file = fopen(nom_annuaire, "r");
+  if (file == NULL) {
+    printf("Impossible d'ouvrir l'annuaire\n");
+    return NULL; // Erreur car il est impossible d'ouvrir l'annuaire
+  }
+  return file;
+}
+
+FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecriture)
+{
+  // Auteur : Clement LE GOASTER
+  FILE* sortie = fopen(nom_fichier, mode_ecriture);
+  if (sortie == NULL) {
+    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
+    return NULL; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
+  }
+  return sortie;
+}
+
+void afficher_annuaire_clients(FILE* nom_pt, FILE* nom_pt_sortie)
+{
+  // Auteur : Clement LE GOASTER
+  char line[1024];
+  while (fgets(line, 1024, nom_pt)) {
+    fputs(line, nom_pt_sortie);
+  }
+}
+
+int verifier_validite_annuaire_client(const char* nom_annuaire)
+{
+  // Auteur : Clement LE GOASTER
 }

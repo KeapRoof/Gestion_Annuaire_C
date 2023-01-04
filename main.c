@@ -1,7 +1,18 @@
+/**
+ * @file main.c
+ * @author Clément, Haithem, Aziz
+ * @brief Fichier main, qui contient l'interface de l'API
+ */
+
 #include "functions.h"
 
 // Assert obligatoire
 
+/**
+ * @brief Interface de l'API
+ * 
+ * @return int 
+ */
 int main(void) {
     char* nom_annuaire = malloc(100 * sizeof(char));
     char* nom_p = malloc(100 * sizeof(char));

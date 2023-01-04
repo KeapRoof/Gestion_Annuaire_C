@@ -13,8 +13,9 @@ Pour l'installer (sous une distribution ubuntu) :
 sudo apt install gcc
 ```
 Pour l'installer (sous Windows 10/11) :
-
+```
 Vous rendre sur *https://sourceforge.net/projects/mingw/files/Installer/* et installer minGW
+```
 
 ## Installation
 
