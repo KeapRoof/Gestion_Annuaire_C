@@ -74,6 +74,7 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
   FILE* sortie = fopen("resultat_modifier_mel.txt", "w");
   if (sortie == NULL) {
     printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
+    fclose(file);
     return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
   }
   // Verifie si les chaines ne sont pas des chaines vides
@@ -188,22 +189,42 @@ int trier_clients_par_nom(const char* nom_annuaire)
   FILE* sortie = fopen("resultat_trier_par_nom.txt", "w");
   if (sortie == NULL) {
     printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
+    fclose(file);
     return -2; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
   }
   // Lit le fichier ligne par ligne
+  char* lines[1000];
   char line[1024];
+  char *temp;  // Chaîne de caractères temporaire pour échanger les lignes
+  int i = 0;
   while (fgets(line, 1024, file)) {
-  // Tri par insertion, qui place les lignes dans l'ordre souhaité
-    line[1]; // terminer le tri
-    int i, j, temp; 
-    for (i = 1; i < 40; i++) {
-      j = i;
-      while (j > 0 && line[j - 1] > line[j]) {
-        temp = line[j];
-        line[j] = line[j - 1];
-        line[j - 1] = temp;
-        j--;
+    lines[i] = malloc(strlen(line) + 1);  // allouez de l'espace mémoire pour la ligne
+    if (lines == NULL) {
+      printf("Erreur lors de l'allocation de la mémoire\n");
+      remove("resultat_modifier_mel.txt");
+      fclose(file);
+      return -3; // Erreur car la mémoire n'a pas pu être allouée
+    }
+    strcpy(lines[i], line);  // copiez la ligne dans le tableau
+    i++;
+  }
+  // Tri à bulles du tableau de lignes
+  for (int j = 0; j < i - 1; j++) {
+    for (int k = 0; k < i - 1; k++) {
+      if (strcmp(lines[k], lines[k + 1]) > 0) {  // Si la ligne actuelle est "supérieure" à la ligne suivante
+        temp = lines[k];  // Echangez les lignes
+        lines[k] = lines[k + 1];
+        lines[k + 1] = temp;
       }
     }
   }
+  for (int j = 0; j < i; j++) {
+    fputs(lines[j], sortie);
+  }
+  for (int j = 0; j < i; j++) {
+    free(lines[j]);
+  }
+  fclose(sortie);
+  fclose(file);
+  return 0; // Fonctionnement normal
 }
