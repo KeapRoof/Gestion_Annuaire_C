@@ -213,6 +213,7 @@ int trier_clients_par_nom(const char* nom_annuaire)
   for (int j = 0; j < i; j++) {
     free(lines[j]);
   }
+  printf("Le fichier est trié\n");
   fclose(sortie);
   fclose(file);
   return 0; // Fonctionnement normal

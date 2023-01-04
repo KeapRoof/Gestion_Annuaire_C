@@ -19,7 +19,8 @@ int main(void) {
     int choix;
     int quit = 0;
     while (quit == 0) {
-        printf("--------------------------------------------------\n");
+        printf("\n");
+        printf("-------------Que voulez-vous faire ?--------------\n");
         printf("1. Ajouter un nouveau client\n");
         printf("2. Modifier le mel d'un client\n");
         printf("3. Modifier autres elements que le mel d'un client\n");
@@ -46,7 +47,7 @@ int main(void) {
             scanf("%s", code_postal_p);
             printf("Entrez la ville où réside le client : \n");
             scanf("%s", ville_p);
-            printf("Entrez numéro de téléphone du client : \n");
+            printf("Entrez le numéro de téléphone du client : \n");
             scanf("%s", telephone_p);
             printf("Entrez le mail du client : \n");
             scanf("%s", mel_p);
@@ -77,6 +78,7 @@ int main(void) {
             break;
         case 9:
             printf("Vous quittez le programme...\n");
+            printf("\n");
             quit = 1;
             break;
         default:
