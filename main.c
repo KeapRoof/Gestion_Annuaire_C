@@ -1,19 +1,6 @@
-/**
- * @file main.c
- * @author Haithem, Aziz, Clement
- * @brief main (executions des fonctions)
- * @version 0.1
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-
 #include "functions.h"
 
-//commentaire doxygen (sur 0.375/20) sur l'API
-//assert obligatoire
-//fichier .h & .c séparés
+// Assert obligatoire
 
 int main(void) {
     printf("--------------------------------------------------\n");
@@ -28,6 +15,7 @@ int main(void) {
     printf("--------------------------------------------------\n");
     printf("-> ");
     int choix;
+    fflush(stdin);
     scanf("%d", &choix);
     char* nom_annuaire = malloc(100 * sizeof(char));
     char* nom_p = malloc(100 * sizeof(char));

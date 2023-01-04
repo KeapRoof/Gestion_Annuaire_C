@@ -1,14 +1,3 @@
-/**
- * @file functions.c
- * @author Haithem, Aziz, Clement
- * @brief fichiers contenant les fonctions
- * @version 0.1
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "functions.h"
 
 void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) 
