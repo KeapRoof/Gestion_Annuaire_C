@@ -23,7 +23,8 @@
  * @param mel_p Email du client à ajouter
  * @param profession_p Profession du client à ajouter
  */
-int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p);
+
+void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p);
 
 /**
  * @brief Permet de supprimer un client de l'annuaire
@@ -31,7 +32,7 @@ int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* pren
  * @param nom_annuaire Nom de l'annuaire pour lire les données (format .csv)
  * @param mel_p Email du client à supprimer
  */
-int supprimer_client(const char* nom_annuaire, const char* mel_p);
+void supprimer_client(const char* nom_annuaire, const char* mel_p);
 
 /**
  * @brief Permet de modifier le mail d'un client déja présent dans l'annuaire
@@ -90,3 +91,13 @@ void afficher_annuaire_clients(const char* nom_annuaire);
  * @param nom_annuaire Nom de l'annuaire à verifier
  */
 int verifier_validite_annuaire_client(const char* nom_annuaire);
+
+/**
+ * @brief Fonction qui renvoie le resultat d'un filtre
+ * 
+ * @param nom_annuaire Nom de l'annuaire à verifier
+ * @param nom_champ Nom du champ a comparé
+ * @param val_chaine Valeur que l'on cherche
+ */
+
+void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine);

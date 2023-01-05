@@ -6,62 +6,62 @@
 
 #include "functions.h"
 
-int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) 
-{
+void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p){
   // Auteur : Haithem HADJ AZZEM
-  int retour = verifier_validite_annuaire_client(nom_annuaire);
-  if (retour == -1 || retour == -3 || retour == -4) {
-    return -1; // L'annuaire n'est pas valide
+  // Ouvre le fichier annaire
+  FILE* file = fopen(nom_annuaire, "r");
+  if (file == NULL) {
+    perror("Impossible d'ouvrir le fichier");
+    return;
   }
-  FILE* file = chargement_annuaire_clients(nom_annuaire);
-  // Ouvre le fichier en mode "a" (ajout)
-  FILE* sortie = ecriture_annuaire_clients("resultat_ajouter.txt", "a");
-  if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
-    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
+  // Ouvre le fichier résultat
+  FILE* file2 = fopen("Resultat.txt", "w");
+  if (file2 == NULL) {
+    perror("Impossible d'ouvrir le fichier");
+    return;
   }
-  // ecrit les informations du client dans le fichier
-  char line[1024];
-  while (fgets(line, 1024, file)) {
-    fputs(line, sortie);
-    }
-  fprintf(sortie, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
-  printf("Le client a bien été ajouté à l'annuaire\n");
-  // Ferme le fichier
+
+  // Copie le contenu du fichier annuaire dans le fichier resultat
+  char c;
+  while ((c = fgetc(file)) != EOF) {
+    fputc(c, file2);
+  }
+
+  // Ecrit les informations du client dans le fichier
+  fprintf(file2, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
+  printf("Le client a bien été ajouté à l'annuaire");
+  // Fermeture des fichiers
   fclose(file);
-  fclose(sortie);
+  fclose(file2);
 }
 
-int supprimer_client(const char* nom_annuaire, const char* mel_p) 
-{
-  // Auteur : Haithem HADJ AZZEM
-  int retour = verifier_validite_annuaire_client(nom_annuaire);
-  if (retour == -1 || retour == -3 || retour == -4) {
-    return -1; // L'annuaire n'est pas valide
-  }
-  // Ouvre le fichier en mode "r" (lecture)
-  FILE* file = chargement_annuaire_clients(nom_annuaire);
-  // Ouvre le fichier en mode "w" (ecriture)
-  FILE* temp = ecriture_annuaire_clients("temp.csv", "w");
-  if ((file == NULL || temp == NULL) || (file == NULL && temp == NULL)) {
-    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
-  }
-  // Lit le fichier ligne par ligne
-  char line[1024];
-  while (fgets(line, 1024, file)) {
-      // Si la ligne ne contient pas l'adresse mail, on l'écrit dans le fichier temporaire
-      if (!strstr(line, mel_p)) {
-      fputs(line, temp);
-      }
-  }
-  // Ferme les fichiers
-  fclose(file);
-  fclose(temp);
-  // Supprime l'ancien fichier
-  remove(nom_annuaire);
-  // Renomme le fichier temporaire
-  rename("temp.csv", nom_annuaire);
-  printf("Client supprimé\n");
-}
+void supprimer_client(const char* nom_annuaire, const char* mel_p){
+    // Auteur : Haithem HADJ AZZEM
+    // Ouvre du fichier annuaire
+    FILE* file = fopen(nom_annuaire, "r");
+    if (file == NULL) {
+        perror("Impossible d'ouvrir le fichier\n");
+        return;
+    }
+    // Ouvre un fichier resultat
+    FILE* res = fopen("resultat_supprimer.txt", "w");
+    if (res == NULL) {
+        perror("Impossible d'ouvrir le fichier resultat\n");
+        return;
+    }
+    // Lit le fichier ligne par ligne
+    char line[1024];
+    while (fgets(line, 1024, file)) {
+        // Si la ligne ne contient pas l'adresse mail, on l'écrit dans le fichier resultat
+        if (!strstr(line, mel_p)) {
+        fputs(line, res);
+        }
+    }
+    // Ferme les fichiers
+    fclose(file);
+    fclose(res);
+    printf("Client supprimé\n");
+    }
 
 int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char* nv_mel_p)
 {
@@ -291,4 +291,128 @@ int verifier_validite_annuaire_client(const char* nom_annuaire)
     return -4;
   }
   return 0;
+}
+
+void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
+    // Création de la structure client
+    struct Client {
+        char nom[50];
+        char prenom[50];
+        char adresse[50];
+        char ville[50];
+        char code_postal[50];
+        char telephone[50];
+        char email[50];
+    };
+
+    //Ouverture de l'annuaire + Traitement des cas d'erreur
+    FILE *fichier;
+    fichier = fopen(nom_annuaire, "r");
+    if (fichier == NULL){
+        perror("Impossible d'ouvrir l'annuaire");
+    }
+    //Ouverture du ficher résultat du filtre
+    FILE *fichier_filtrer;
+    fichier_filtrer = fopen("filtrer.txt", "w");
+    if (fichier_filtrer == NULL){
+        perror("Impossible d'ouvrir le fichier filtrer.txt");
+    }
+
+    //Innitialisation de la variable client
+    struct Client client;
+    
+    // Remplissage de la structure
+    char ligne[500];
+    while (fgets(ligne, 500, fichier) != NULL){
+        char *token = strtok(ligne, ",");
+        // Traitement des cas ou le champs est vide
+        if (token == NULL){
+            strcpy(client.nom, " ");
+        }
+        else{
+        strcpy(client.nom, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.prenom, " ");
+        }
+        else{
+        strcpy(client.prenom, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.adresse, " ");
+        }
+        else{
+        strcpy(client.adresse, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.ville, " ");
+        }
+        else{
+        strcpy(client.ville, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.code_postal, " ");
+        }
+        else{
+        strcpy(client.code_postal, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.telephone, " ");
+        }
+        else{
+        strcpy(client.telephone, token);
+        }
+        token = strtok(NULL, ",");
+        if (token == NULL){
+            strcpy(client.email, " ");
+        }
+        else{
+        strcpy(client.email, token);
+        }
+        // Comparaison avec la valeur donnée
+        if (nom_champ == "nom"){
+            if (strcmp(client.nom, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "prenom"){
+            if (strcmp(client.prenom, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "adresse"){
+            if (strcmp(client.adresse, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "ville"){
+            if (strcmp(client.ville, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "code_postal"){
+            if (strcmp(client.code_postal, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "telephone"){
+            if (strcmp(client.telephone, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+        if (nom_champ == "email"){
+            if (strcmp(client.email, val_chaine) == 0){
+                fprintf(fichier_filtrer, "%s,%s,%s,%s,%s,%s,%s\n", client.nom, client.prenom, client.adresse, client.ville, client.code_postal, client.telephone, client.email);
+        }
+        }
+    }
+    // Fermeture des fichiers
+    fclose(fichier);
+    fclose(fichier_filtrer);
+    printf("Fichier filtrer.txt créé");
 }
