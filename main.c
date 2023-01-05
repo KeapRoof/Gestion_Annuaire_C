@@ -3,6 +3,14 @@
  * @author Clément, Haithem, Aziz
  * @brief Fichier main, qui contient l'interface de l'API
  */
+/*! \mainpage Page d'accueil
+ *
+ * Membres du groupe : Clement, Haithem, Aziz
+ * 
+ * Ce programme en C est une API pour intéragir avec un annuaire.
+ * 
+ * Pour plus d'informations sur l'installation du programme, rendez-vous sur le README.md (fans Related Pages)
+ */
 
 #include "functions.h"
 

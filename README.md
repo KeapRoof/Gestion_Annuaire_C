@@ -1,4 +1,4 @@
-# SAE-C
+# Notice pour Api_annuaire
 
 **Groupe : Haitem, Aziz, Clément**
 
