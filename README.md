@@ -1,27 +1,36 @@
-# Notice pour Api_annuaire
+# Notice - api_annuaire
 
 **Groupe : Haitem, Aziz, Clément**
 
-**Description** : programme en C permettant de lire un annuaire et de l'administrer (tri, insertion, suppression)
+**Description** : programme en C permettant de lire un annuaire et de l'administrer (tri, insertion, suppression...)
 
 ## Prérequis
 
-GCC :
+Ces packages sont nécessaires pour la compilation du projet.
 
-Pour l'installer (sous une distribution ubuntu) :
+- **gcc**
+- **cmake**
+
+Pour installer ces packages sous une distribution debian :
 ```
-sudo apt install gcc
+sudo apt install gcc cmake;
 ```
-Pour l'installer (sous Windows 10/11) :
-```
-Vous rendre sur *https://sourceforge.net/projects/mingw/files/Installer/* et installer minGW
-```
+Pour installer ces packages sous Windows :
+
+- **gcc** : https://sourceforge.net/projects/mingw/
+- **cmake** : https://cmake.org/download/
 
 ## Installation
 
-Pour compiler le programme et obtenir un fichier executable :
+Pour compiler le programme et obtenir un fichier executable, il faut invoquer cmake :
+
+Sous Linux / MacOS :
 ```
-gcc *.c 
+cmake .
+```
+Sous Windows :
+```
+cmake --build
 ```
 
 ## Utilisation
