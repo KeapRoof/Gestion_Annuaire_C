@@ -80,10 +80,9 @@ FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecritu
 /**
  * @brief Fonction qui permet de printer l'annuaire dans un fichier de sortie
  * 
- * @param nom_pt Nom du pointeur vers le fichier annuaire
- * @param nom_pt_sortie Nom du pointeur vers le fichier de sortie
+ * @param nom_annuaire Nom de l'annuaire à afficher"
  */
-void afficher_annuaire_clients(FILE* nom_pt, FILE* nom_pt_sortie);
+void afficher_annuaire_clients(const char* nom_annuaire);
 
 /**
  * @brief Fonction qui verifie si l'annuaire client n'est pas vide

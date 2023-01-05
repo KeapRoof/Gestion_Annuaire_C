@@ -20,7 +20,10 @@ int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* pren
     return -1; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // ecrit les informations du client dans le fichier
-  afficher_annuaire_clients(file, sortie);
+  char line[1024];
+  while (fgets(line, 1024, file)) {
+    fputs(line, sortie);
+    }
   fprintf(sortie, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
   printf("Le client a bien été ajouté à l'annuaire\n");
   // Ferme le fichier
@@ -249,20 +252,22 @@ FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecritu
   return sortie;
 }
 
-void afficher_annuaire_clients(FILE* nom_pt, FILE* nom_pt_sortie)
+void afficher_annuaire_clients(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
   char line[1024];
-  while (fgets(line, 1024, nom_pt)) {
-    fputs(line, nom_pt_sortie);
+  while (fgets(line, 1024, file)) {
+    printf("%s", line);
   }
 }
 
 int verifier_validite_annuaire_client(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
+  // A faire : - pas de mail vide ; - pas de doublons sur les emails
   int i = 0;
-  if (!strstr(nom_annuaire, ".csv")) {
+  if (!strstr(nom_annuaire, ".csv")) { // Cherche si l'extention .csv est bien présente dans le nom de l'annuaire
     printf("L'annuaire n'est pas au format .csv : invalide\n");
     return -1;
   } 
@@ -272,17 +277,17 @@ int verifier_validite_annuaire_client(const char* nom_annuaire)
   }
   char line[1024];
   fgets(line, 1024, file);
-  if (feof(file)) {
+  if (feof(file)) { // Cherche si la fin du fichier est directement sur la première ligne
     printf("L'annuaire n'est pas valide : il est vide\n");
     return -3;
   }
   while (fgets(line, 1024, file)) {
-    if (!strstr(line, ",")) {
+    if (!strstr(line, ",")) { // Cherche les commentaires séparateurs sur toutes les lignes du fichier
       i = 1;
     }
   }
   if (i == 1) {
-    printf("L'annuaire csv n'est pas valide : il manque des caractères séparateurs sur une/des lignes\n");
+    printf("L'annuaire csv n'est pas valide : il manque des caractères séparateurs sur une/des lignes de l'annuaire\n");
     return -4;
   }
   return 0;

@@ -14,6 +14,7 @@
  * @return int 
  */
 int main(void) {
+    // Auteur : Clement LE GOASTER
     char* nom_annuaire = malloc(100 * sizeof(char));
     char* nom_p = malloc(100 * sizeof(char));
     char* prenom_p = malloc(100 * sizeof(char));
@@ -32,6 +33,7 @@ int main(void) {
     while (quit == 0) {
         printf("\n");
         printf("-------------Que voulez-vous faire ?--------------\n");
+        printf("0. Affichier l'annuaire\n");
         printf("1. Ajouter un nouveau client\n");
         printf("2. Modifier le mel d'un client\n");
         printf("3. Modifier autres elements que le mel d'un client\n");
@@ -43,10 +45,16 @@ int main(void) {
         printf("9. Quitter le programme\n");
         printf("--------------------------------------------------\n");
         printf("-> ");
-        fflush(stdin);
         scanf("%d", &choix);
         switch (choix)
         {
+        case 0:
+            printf("Entrez le nom de l'annuaire à afficher (avec l'extension) : \n");
+            scanf("%s", nom_annuaire);
+            printf("\n");
+            afficher_annuaire_clients(nom_annuaire);
+            printf("\n");
+            break;
         case 1:
             printf("Entrez le nom de l'annuaire où ajouter le client (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
@@ -92,7 +100,7 @@ int main(void) {
             printf("\n");
             quit = 1;
             break;
-        default:
+        default :
             printf("Erreur lors de la saisie OU fonctionnalité non disponible pour le moment\n");
             return -1; // Erreur lors de la saisie 
         }
