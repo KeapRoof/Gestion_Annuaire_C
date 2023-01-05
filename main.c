@@ -24,7 +24,9 @@ int main(void) {
     char* mel_p = malloc(100 * sizeof(char));
     char* nv_mel_p = malloc(100 * sizeof(char));
     char* profession_p = malloc(100 * sizeof(char));
-    if (nom_annuaire == NULL || nom_p ==  NULL || prenom_p == NULL || code_postal_p == NULL || ville_p == NULL || telephone_p == NULL || mel_p == NULL || nv_mel_p == NULL || profession_p == NULL) {
+    char* nom_champ = malloc(100 * sizeof(char));
+    char* val_chaine = malloc(100 * sizeof(char));
+    if (nom_annuaire == NULL || nom_p ==  NULL || prenom_p == NULL || code_postal_p == NULL || ville_p == NULL || telephone_p == NULL || mel_p == NULL || nv_mel_p == NULL || profession_p == NULL || nom_champ == NULL || val_chaine == NULL) {
         printf("Erreur lors de l'allocation de la mémoire\n");
         return -1; // Erreur car la mémoire n'a pas pu être allouée
     }
@@ -33,7 +35,7 @@ int main(void) {
     while (quit == 0) {
         printf("\n");
         printf("-------------Que voulez-vous faire ?--------------\n");
-        printf("0. Affichier l'annuaire\n");
+        printf("0. Afficher l'annuaire\n");
         printf("1. Ajouter un nouveau client\n");
         printf("2. Modifier le mel d'un client\n");
         printf("3. Modifier autres elements que le mel d'un client\n");
@@ -51,9 +53,7 @@ int main(void) {
         case 0:
             printf("Entrez le nom de l'annuaire à afficher (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
-            printf("\n");
             afficher_annuaire_clients(nom_annuaire);
-            printf("\n");
             break;
         case 1:
             printf("Entrez le nom de l'annuaire où ajouter le client (avec l'extension) : \n");
@@ -95,6 +95,14 @@ int main(void) {
             scanf("%s", nom_annuaire);
             trier_clients_par_nom(nom_annuaire);
             break;
+        case 7:
+            printf("Entrez le nom de l'annuaire à trier (avec l'extension) : \n");
+            scanf("%s", nom_annuaire);
+            printf("Entrez le nom du champs à trier : \n");
+            scanf("%s", nom_champ);
+            printf("Entrez la valeur à rechercher : \n");
+            scanf("%s", val_chaine);
+            filtrer_un_champ(nom_annuaire, nom_champ, val_chaine);
         case 9:
             printf("Vous quittez le programme...\n");
             printf("\n");
@@ -114,5 +122,7 @@ int main(void) {
     free(mel_p);
     free(nv_mel_p);
     free(profession_p);
+    free(nom_champ);
+    free(val_chaine);
     return 0; // Retour normal
 }

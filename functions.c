@@ -20,13 +20,11 @@ void ajouter_client(const char* nom_annuaire, const char* nom_p, const char* pre
     perror("Impossible d'ouvrir le fichier");
     return;
   }
-
   // Copie le contenu du fichier annuaire dans le fichier resultat
   char c;
   while ((c = fgetc(file)) != EOF) {
     fputc(c, file2);
   }
-
   // Ecrit les informations du client dans le fichier
   fprintf(file2, "\n%s,%s,%s,%s,%s,%s,%s,", nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
   printf("Le client a bien été ajouté à l'annuaire");
@@ -75,7 +73,7 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
   // Ouvre le fichier en mode "r" (lecture)
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
-  FILE* sortie = ecriture_annuaire_clients("resultat_trier_par_nom.txt", "w");
+  FILE* sortie = ecriture_annuaire_clients("resultat_modifier_mel.txt", "w");
   if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
     return -2; // Erreur lors de la lecture / ecriture de l'annuaire
   }
@@ -182,7 +180,7 @@ int trier_clients_par_nom(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
   int retour = verifier_validite_annuaire_client(nom_annuaire);
-  if (retour == -1 || retour == -3 || retour == -4) {
+  if (retour == -1 || retour == -2 || retour == -3 || retour == -4) {
     return -1; // L'annuaire n'est pas valide
   }
   // Ouvre le fichier en mode "r" (lecture)
@@ -252,14 +250,21 @@ FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecritu
   return sortie;
 }
 
-void afficher_annuaire_clients(const char* nom_annuaire)
+int afficher_annuaire_clients(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
+  printf("\n");
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   char line[1024];
   while (fgets(line, 1024, file)) {
     printf("%s", line);
   }
+  printf("\n");
+  return 0;
 }
 
 int verifier_validite_annuaire_client(const char* nom_annuaire)
@@ -304,23 +309,20 @@ void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
         char telephone[50];
         char email[50];
     };
-
     //Ouverture de l'annuaire + Traitement des cas d'erreur
     FILE *fichier;
     fichier = fopen(nom_annuaire, "r");
     if (fichier == NULL){
-        perror("Impossible d'ouvrir l'annuaire");
+        perror("Impossible d'ouvrir l'annuaire\n");
     }
     //Ouverture du ficher résultat du filtre
     FILE *fichier_filtrer;
     fichier_filtrer = fopen("filtrer.txt", "w");
     if (fichier_filtrer == NULL){
-        perror("Impossible d'ouvrir le fichier filtrer.txt");
+        perror("Impossible d'ouvrir le fichier filtrer.txt\n");
     }
-
     //Innitialisation de la variable client
     struct Client client;
-    
     // Remplissage de la structure
     char ligne[500];
     while (fgets(ligne, 500, fichier) != NULL){
@@ -414,5 +416,5 @@ void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
     // Fermeture des fichiers
     fclose(fichier);
     fclose(fichier_filtrer);
-    printf("Fichier filtrer.txt créé");
+    printf("Fichier filtrer.txt créé\n");
 }

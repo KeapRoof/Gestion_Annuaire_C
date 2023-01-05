@@ -83,7 +83,7 @@ FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecritu
  * 
  * @param nom_annuaire Nom de l'annuaire à afficher"
  */
-void afficher_annuaire_clients(const char* nom_annuaire);
+int afficher_annuaire_clients(const char* nom_annuaire);
 
 /**
  * @brief Fonction qui verifie si l'annuaire client n'est pas vide
