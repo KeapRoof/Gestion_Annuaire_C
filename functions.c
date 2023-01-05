@@ -9,6 +9,10 @@
 int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* prenom_p, const char* code_postal_p, const char* ville_p, const char* telephone_p, const char* mel_p, const char* profession_p) 
 {
   // Auteur : Haithem HADJ AZZEM
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "a" (ajout)
   FILE* sortie = ecriture_annuaire_clients("resultat_ajouter.txt", "a");
@@ -27,6 +31,10 @@ int ajouter_client(const char* nom_annuaire, const char* nom_p, const char* pren
 int supprimer_client(const char* nom_annuaire, const char* mel_p) 
 {
   // Auteur : Haithem HADJ AZZEM
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
   // Ouvre le fichier en mode "r" (lecture)
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
@@ -56,12 +64,17 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
 {
   // Auteur : Clement LE GOASTER
   int cpt = 0; // Compteur pour savoir si l'adresse à remplacer est dans l'annuaire
+  // Verifie la validité de l'annuaire
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
   // Ouvre le fichier en mode "r" (lecture)
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
   FILE* sortie = ecriture_annuaire_clients("resultat_trier_par_nom.txt", "w");
   if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
-    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
+    return -2; // Erreur lors de la lecture / ecriture de l'annuaire
   }
   // Verifie si les chaines ne sont pas des chaines vides
   if ((strlen(mel_p) == 0 && strlen(nv_mel_p) == 0) || (strlen(mel_p) == 0 || strlen(nv_mel_p) == 0))
@@ -165,6 +178,10 @@ char* remplacer_element(const char* nom_chaine, const char* ancien_element, cons
 int trier_clients_par_nom(const char* nom_annuaire) 
 {
   // Auteur : Clement LE GOASTER
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
   // Ouvre le fichier en mode "r" (lecture)
   FILE* file = chargement_annuaire_clients(nom_annuaire);
   // Ouvre le fichier en mode "w" (ecriture)
@@ -244,4 +261,29 @@ void afficher_annuaire_clients(FILE* nom_pt, FILE* nom_pt_sortie)
 int verifier_validite_annuaire_client(const char* nom_annuaire)
 {
   // Auteur : Clement LE GOASTER
+  int i = 0;
+  if (!strstr(nom_annuaire, ".csv")) {
+    printf("L'annuaire n'est pas au format .csv : invalide\n");
+    return -1;
+  } 
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
+  if (file == NULL) {
+    return -2; // Erreur lors de la lecture / ecriture de l'annuaire
+  }
+  char line[1024];
+  fgets(line, 1024, file);
+  if (feof(file)) {
+    printf("L'annuaire n'est pas valide : il est vide\n");
+    return -3;
+  }
+  while (fgets(line, 1024, file)) {
+    if (!strstr(line, ",")) {
+      i = 1;
+    }
+  }
+  if (i == 1) {
+    printf("L'annuaire csv n'est pas valide : il manque des caractères séparateurs sur une/des lignes\n");
+    return -4;
+  }
+  return 0;
 }
