@@ -252,18 +252,28 @@ FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecritu
 
 int afficher_annuaire_clients(const char* nom_annuaire)
 {
-  // Auteur : Clement LE GOASTER
+  // Auteur : Aziz MELLITI
   int retour = verifier_validite_annuaire_client(nom_annuaire);
   if (retour == -1 || retour == -3 || retour == -4) {
     return -1; // L'annuaire n'est pas valide
   }
   printf("\n");
   FILE* file = chargement_annuaire_clients(nom_annuaire);
-  char line[1024];
-  while (fgets(line, 1024, file)) {
-    printf("%s", line);
-  }
-  printf("\n");
+  // Nous allons afficher le contenu du fichier
+  char line[1024]; //la variable "line" peut prendre jusqu'� 1024 donn�es, ce qui est suffisant
+  while (fgets(line, sizeof(line), file) != NULL) {
+    // Tokenize the line
+    char* token = strtok(line, ",");
+    while (token != NULL) {
+      // Print the token
+      printf("%s ", token);
+      // Get the next token
+      token = strtok(NULL, ",");
+      }
+    // Print a newline after each line
+    printf("\n");
+    }
+  fclose(file);
   return 0;
 }
 
