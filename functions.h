@@ -101,3 +101,22 @@ int verifier_validite_annuaire_client(const char* nom_annuaire);
  */
 
 void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine);
+
+/**
+ * @brief Fonction qui modifie une valeur de l'annuaire autre que le mail du client
+ * 
+ * @param nom_annuaire Nom de l'annuaire pour lire les données (format .csv)
+ * @param mel_p Mel du client pour modifier une autre valeur
+ * @param nom_champ Champ de la valeur à modifier (nom, prenom, ville...)
+ * @param nv_valeur Nouvelle valeur qui remplace l'ancienne
+ * @return int 
+ */
+int modifier_autres_que_mel_client(const char* nom_annuaire, const char* mel_p, const char* nom_champ, const char* nv_valeur);
+
+/**
+ * @brief Fonction qui filtres les lignes avec des données manquantes
+ * 
+ * @param nom_annuaire Nom de l'annuaire à vérifier
+ * @return int 
+ */
+int filtrer_clients_donnees_manquantes(const char *nom_annuaire);

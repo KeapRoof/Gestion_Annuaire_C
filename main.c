@@ -34,6 +34,7 @@ int main(void) {
     char* profession_p = malloc(100 * sizeof(char));
     char* nom_champ = malloc(100 * sizeof(char));
     char* val_chaine = malloc(100 * sizeof(char));
+    char* nv_valeur = malloc(100 * sizeof(char));
     if (nom_annuaire == NULL || nom_p ==  NULL || prenom_p == NULL || code_postal_p == NULL || ville_p == NULL || telephone_p == NULL || mel_p == NULL || nv_mel_p == NULL || profession_p == NULL || nom_champ == NULL || val_chaine == NULL) {
         printf("Erreur lors de l'allocation de la mémoire\n");
         return -1; // Erreur car la mémoire n'a pas pu être allouée
@@ -59,12 +60,12 @@ int main(void) {
         switch (choix)
         {
         case 0:
-            printf("Entrez le nom de l'annuaire à afficher (avec l'extension) : \n");
+            printf("Entrez le nom de l'annuaire a afficher (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
             afficher_annuaire_clients(nom_annuaire);
             break;
         case 1:
-            printf("Entrez le nom de l'annuaire où ajouter le client (avec l'extension) : \n");
+            printf("Entrez le nom de l'annuaire ou ajouter le client (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
             printf("Entrez le nom du client : \n");
             scanf("%s", nom_p);
@@ -72,9 +73,9 @@ int main(void) {
             scanf("%s", prenom_p);
             printf("Entrez le code postal du client : \n");
             scanf("%s", code_postal_p);
-            printf("Entrez la ville où réside le client : \n");
+            printf("Entrez la ville ou reside le client : \n");
             scanf("%s", ville_p);
-            printf("Entrez le numéro de téléphone du client : \n");
+            printf("Entrez le numéro de telephone du client : \n");
             scanf("%s", telephone_p);
             printf("Entrez le mail du client : \n");
             scanf("%s", mel_p);
@@ -83,34 +84,87 @@ int main(void) {
             ajouter_client(nom_annuaire, nom_p, prenom_p, code_postal_p, ville_p, telephone_p, mel_p, profession_p);
             break;
         case 2:
-            printf("Entrez le nom de l'annuaire à lire (avec l'extension) : \n");
+            printf("Entrez le nom de l'annuaire a lire (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
-            printf("Entrez le mail à remplacer : \n");
+            printf("Entrez le mail a remplacer : \n");
             scanf("%s", mel_p);
             printf("Entrez le nouvel email : \n");
             scanf("%s", nv_mel_p);
             modifier_mel_client(nom_annuaire, mel_p, nv_mel_p);
             break;
-        case 4:
-            printf("Entrez le nom de l'annuaire à lire (avec l'extension) : \n");
+        case 3:
+            int val_champ;
+            printf("Entrez le nom de l'annuaire a lire (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
-            printf("Entrez le mail du client à supprimer : \n");
+            printf("Entrez le mel du client dont vous souhaitez modifier la valeur d'un champ : \n");
+            scanf("%s", mel_p);
+            printf("Voici les différents champs que vous pouvez modifier : \n");
+            printf("\n");
+            printf("1. Modifier le nom du client\n");
+            printf("2. Modifier le prenom du client\n");
+            printf("3. Modifier le code postal du client\n");
+            printf("4. Modifier la ville ou réside le client\n");
+            printf("5. Modifier le numero du telephone du client\n");
+            printf("6. Modifier la profession du client\n");
+            printf("\n");
+            printf("Entrez le numero du champ a modifier : \n");
+            scanf("%d", &val_champ);
+            switch (val_champ)
+            {
+            case 1:
+                nom_champ = "nom";
+                break;
+            case 2:
+                nom_champ = "prenom";
+                break;
+            case 3:
+                nom_champ = "code_postal";
+                break;
+            case 4:
+                nom_champ = "ville";
+                break;
+            case 5:
+                nom_champ = "telephone";
+                break;
+            case 6:
+                nom_champ = "profession";
+                break;
+            default:
+                printf("Erreur lors de la saisie\n");
+                return -1; // Erreur lors de la saisie
+                break;
+            }
+            printf("Entrez la nouvelle valeur de ce champ : \n");
+            scanf("%s", nv_valeur);
+            modifier_autres_que_mel_client(nom_annuaire, mel_p, nom_champ, nv_valeur);
+            break;
+        case 4:
+            printf("Entrez le nom de l'annuaire a lire (avec l'extension) : \n");
+            scanf("%s", nom_annuaire);
+            printf("Entrez le mail du client a supprimer : \n");
             scanf("%s", mel_p);
             supprimer_client(nom_annuaire, mel_p);
             break;
         case 5:
-            printf("Entrez le nom de l'annuaire à trier (avec l'extension) : \n");
+            printf("Entrez le nom de l'annuaire a trier (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
             trier_clients_par_nom(nom_annuaire);
             break;
-        case 7:
-            printf("Entrez le nom de l'annuaire à trier (avec l'extension) : \n");
+        case 6:
+            printf("Entrez le nom de l'annuaire a filtrer (avec l'extension) : \n");
             scanf("%s", nom_annuaire);
-            printf("Entrez le nom du champs à trier : \n");
+            filtrer_clients_donnees_manquantes(nom_annuaire);
+            break;
+        case 7:
+            printf("Entrez le nom de l'annuaire a trier (avec l'extension) : \n");
+            scanf("%s", nom_annuaire);
+            printf("Entrez le nom du champs a trier : \n");
             scanf("%s", nom_champ);
-            printf("Entrez la valeur à rechercher : \n");
+            printf("Entrez la valeur a rechercher : \n");
             scanf("%s", val_chaine);
             filtrer_un_champ(nom_annuaire, nom_champ, val_chaine);
+        case 8:
+            break;
         case 9:
             printf("Vous quittez le programme...\n");
             printf("\n");
@@ -132,5 +186,6 @@ int main(void) {
     free(profession_p);
     free(nom_champ);
     free(val_chaine);
+    free(nv_valeur);
     return 0; // Retour normal
 }

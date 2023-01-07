@@ -141,40 +141,154 @@ int modifier_mel_client(const char* nom_annuaire, const char* mel_p, const char*
   return 0;
 }
 
-char* remplacer_element(const char* nom_chaine, const char* ancien_element, const char* nouvel_element)
-{ 
+int modifier_autres_que_mel_client(const char* nom_annuaire, const char* mel_p, const char* nom_champ, const char* nv_valeur)
+{
   // Auteur : Clement LE GOASTER
-  char* ligne_modifiee; 
-  int i, j = 0; 
-  // Definition des tailles de chaines de charatères pour ne pas déborder sur les autres charactères
-  int longueur_ancien_element = strlen(ancien_element); 
-  int longueur_nouvel_element = strlen(nouvel_element); 
-  // Comptage du nombre d'occurence de l'ancien element
-  for (i = 0; nom_chaine[i] != '\0'; i++) { 
-    if (strstr(&nom_chaine[i], ancien_element) == &nom_chaine[i]) { 
-      j++;  
-      i += longueur_ancien_element - 1; 
-    } 
-  } 
-  // Création d'une chaine de caractères de longueur suffisante 
-  ligne_modifiee = (char*)malloc(i + j * (longueur_nouvel_element - longueur_ancien_element) + 1); 
-  i = 0; 
-  while (*nom_chaine) { 
-  // Modifie les deux elements et renvoie une chaine avec les element echangés
-    if (strstr(nom_chaine, ancien_element) == nom_chaine) { 
-      strcpy(&ligne_modifiee[i], nouvel_element); 
-        i += longueur_nouvel_element; 
-        nom_chaine += longueur_ancien_element; 
-      } else {
-        ligne_modifiee[i++] = *nom_chaine++;
-      } 
-  } 
-  ligne_modifiee[i] = '\0'; 
-  // Retourne la ligne modifiée pour qu'elle puisse ensuite être écrite
-  return ligne_modifiee;
-  // Libère l'espace mémoire alloué précedemment avec malloc
-  free(ligne_modifiee); 
-} 
+  // int retour = verifier_validite_annuaire_client(nom_annuaire);
+  // if (retour == -1 || retour == -2 || retour == -3 || retour == -4) {
+  //   return -1; // L'annuaire n'est pas valide
+  // }
+  // // Ouvre le fichier en mode "r" (lecture)
+  // FILE* file = chargement_annuaire_clients(nom_annuaire);
+  // // Ouvre le fichier en mode "w" (ecriture)
+  // FILE* sortie = ecriture_annuaire_clients("resultat_modifier_autres_que_mel.txt", "w");
+  // if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
+  //   return -1; // Erreur lors de la lecture / ecriture de l'annuaire
+  // }
+  // char line[1024];
+  // char* line_sortie;
+  // // Création de la structure client
+  // struct Client {
+  //   char nom_c[50];
+  //   char prenom_c[50];
+  //   char code_postal_c[50];
+  //   char ville_c[256];
+  //   char numero_telephone_c[50];
+  //   char email_c[50];
+  //   char profession_c[50];
+  //   };
+  // struct Client client;
+  // line_sortie = (char*) malloc (50 * 7 + 6);
+  // // Lit le fichier ligne par ligne
+  // while (fgets(line, 1024, file)) {
+  //   char *token = strtok(line, ",");
+  //   strcpy(client.nom_c, token);
+  //   token = strtok(NULL, ",");
+  //   strcpy(client.prenom_c, token);
+  //   token = strtok(NULL, ",");
+  //   strcpy(client.code_postal_c, token);
+  //   token = strtok(NULL, ",");
+  //   strcpy(client.ville_c, token);
+  //   token = strtok(NULL, ",");
+  //   strcpy(client.numero_telephone_c, token);
+  //   token = strtok(NULL, client.email_c);
+  //   strcpy(client.email_c, token);
+  //   token = strtok(NULL, ",");
+  //   strcpy(client.profession_c, token);
+  //   // Remplacement des valeurs dans le fichier
+  //   if (strcmp(nom_champ,"nom") == 0) {
+  //     strcpy(client.nom_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   if (strcmp(nom_champ, "prenom") == 0) {
+  //     strcpy(client.prenom_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   if (strcmp(nom_champ, "code_postal") == 0) {
+  //     strcpy(client.code_postal_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   if (strcmp(nom_champ, "ville") == 0) {
+  //     strcpy(client.ville_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   if (strcmp(nom_champ, "telephone") == 0) {
+  //     strcpy(client.numero_telephone_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   if (strcmp(nom_champ, "profession") == 0){
+  //     strcpy(client.profession_c, nv_valeur);
+  //     printf("La valeur est remplacée\n");
+  //   }
+  //   sprintf(line_sortie, "%s,%s,%s,%s,%s,%s\n", client.nom_c, client.prenom_c, client.code_postal_c, client.ville_c, client.numero_telephone_c, client.profession_c);
+  //   printf("La chaine est concatenée\n");
+  //   fputs(line_sortie, sortie);
+  //   }   
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -2 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
+  // Ouvre le fichier en mode "r" (lecture)
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
+  // Ouvre le fichier en mode "w" (ecriture)
+  FILE* sortie = ecriture_annuaire_clients("resultat_modifier_autres_que_mel.txt", "w");
+  if ((file == NULL || sortie == NULL) || (file == NULL && sortie == NULL)) {
+    return -1; // Erreur lors de la lecture / ecriture de l'annuaire
+  }
+  char line[1024];
+  char* line_sortie;
+  // Création de la structure client
+  struct Client {
+    char nom_c[50];
+    char prenom_c[50];
+    char code_postal_c[50];
+    char ville_c[50];
+    char numero_telephone_c[50];
+    char email_c[50];
+    char profession_c[50];
+  };
+  struct Client client;
+  line_sortie = (char*) malloc (50 * 7 + 6);
+  // Lit le fichier ligne par ligne
+  while (fgets(line, 1024, file)) {
+    char *token = strtok(line, ",");
+    strcpy(client.nom_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.prenom_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.code_postal_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.ville_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.numero_telephone_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.email_c, token);
+    token = strtok(NULL, ",");
+    strcpy(client.profession_c, token);
+    // Remplacement des valeurs dans le fichier
+    if (strcmp(nom_champ, "nom") == 0) {
+      remplacer_element(line, client.nom_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    if (strcmp(nom_champ, "prenom") == 0) {
+      remplacer_element(line, client.prenom_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    if (strcmp(nom_champ, "code_postal") == 0) {
+      remplacer_element(line, client.code_postal_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    if (strcmp(nom_champ, "ville") == 0) {
+      remplacer_element(line, client.ville_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    if (strcmp(nom_champ, "telephone") == 0) {
+      remplacer_element(line, client.numero_telephone_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    if (strcmp(nom_champ, "profession") == 0) {
+      remplacer_element(line, client.profession_c, nv_valeur);
+      printf("La valeur est remplacée\n");
+    }
+    sprintf(line, "%s,%s,%s,%s,%s,%s,%s\n", client.nom_c, client.prenom_c, client.code_postal_c, client.ville_c, client.numero_telephone_c, client.email_c, client.profession_c);
+    printf("La chaine est concatenée\n");
+    fprintf(sortie, "%s", line);
+  }
+  free(line_sortie);   
+  fclose(file);
+  fclose(sortie);
+  return 0;
+}
 
 int trier_clients_par_nom(const char* nom_annuaire) 
 {
@@ -228,87 +342,34 @@ int trier_clients_par_nom(const char* nom_annuaire)
   return 0; // Fonctionnement normal
 }
 
-FILE* chargement_annuaire_clients(const char* nom_annuaire)
-{
-  // Auteur : Clement LE GOASTER
+int filtrer_clients_donnees_manquantes(const char *nom_annuaire) {
+  // Auteur : Aziz MELLITI
   FILE* file = fopen(nom_annuaire, "r");
   if (file == NULL) {
-    printf("Impossible d'ouvrir l'annuaire\n");
-    return NULL; // Erreur car il est impossible d'ouvrir l'annuaire
-  }
-  return file;
-}
-
-FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecriture)
-{
-  // Auteur : Clement LE GOASTER
-  FILE* sortie = fopen(nom_fichier, mode_ecriture);
-  if (sortie == NULL) {
-    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
-    return NULL; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
-  }
-  return sortie;
-}
-
-int afficher_annuaire_clients(const char* nom_annuaire)
-{
-  // Auteur : Aziz MELLITI
-  int retour = verifier_validite_annuaire_client(nom_annuaire);
-  if (retour == -1 || retour == -3 || retour == -4) {
-    return -1; // L'annuaire n'est pas valide
-  }
-  printf("\n");
-  FILE* file = chargement_annuaire_clients(nom_annuaire);
-  // Nous allons afficher le contenu du fichier
-  char line[1024]; //la variable "line" peut prendre jusqu'� 1024 donn�es, ce qui est suffisant
-  while (fgets(line, sizeof(line), file) != NULL) {
-    // Tokenize the line
-    char* token = strtok(line, ",");
-    while (token != NULL) {
-      // Print the token
-      printf("%s ", token);
-      // Get the next token
-      token = strtok(NULL, ",");
-      }
-    // Print a newline after each line
-    printf("\n");
-    }
-  fclose(file);
-  return 0;
-}
-
-int verifier_validite_annuaire_client(const char* nom_annuaire)
-{
-  // Auteur : Clement LE GOASTER
-  // A faire : - pas de mail vide ; - pas de doublons sur les emails
-  int i = 0;
-  if (!strstr(nom_annuaire, ".csv")) { // Cherche si l'extention .csv est bien présente dans le nom de l'annuaire
-    printf("L'annuaire n'est pas au format .csv : invalide\n");
+    perror("Impossible d'ouvrir le fichier");
     return -1;
-  } 
-  FILE* file = chargement_annuaire_clients(nom_annuaire);
-  if (file == NULL) {
-    return -2; // Erreur lors de la lecture / ecriture de l'annuaire
   }
-  char line[1024];
-  fgets(line, 1024, file);
-  if (feof(file)) { // Cherche si la fin du fichier est directement sur la première ligne
-    printf("L'annuaire n'est pas valide : il est vide\n");
-    return -3;
+  // Ouvre le fichier résultat
+  FILE* file2 = fopen("resultat_afficher_donnees_manquantes.txt", "w");
+  if (file2 == NULL) {
+    perror("Impossible d'ouvrir le fichier");
   }
-  while (fgets(line, 1024, file)) {
-    if (!strstr(line, ",")) { // Cherche les commentaires séparateurs sur toutes les lignes du fichier
-      i = 1;
-    }
+  int i = 1;
+  char line[1024]; //la variable "line" peut prendre jusqu'a 1024 donnees, ce qui est suffisant
+  while (fgets(line, sizeof(line), file) != NULL) {
+    char *car = strstr(line, ",,");
+    if (car != NULL || line[0] == ',' || line[strlen(line)-2] == ',')
+      fprintf(file2, "client %d : %s", i, line);
+      i++;
   }
-  if (i == 1) {
-    printf("L'annuaire csv n'est pas valide : il manque des caractères séparateurs sur une/des lignes de l'annuaire\n");
-    return -4;
-  }
+  printf("Le fichier est filtré\n");
+  fclose(file);
+  fclose(file2);
   return 0;
 }
 
 void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
+    // Auteur : Haithem HADJ AZZEM
     // Création de la structure client
     struct Client {
         char nom[50];
@@ -427,4 +488,119 @@ void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
     fclose(fichier);
     fclose(fichier_filtrer);
     printf("Fichier filtrer.txt créé\n");
+}
+
+char* remplacer_element(const char* nom_chaine, const char* ancien_element, const char* nouvel_element)
+{ 
+  // Auteur : Clement LE GOASTER
+  char* ligne_modifiee; 
+  int i, j = 0; 
+  // Definition des tailles de chaines de charatères pour ne pas déborder sur les autres charactères
+  int longueur_ancien_element = strlen(ancien_element); 
+  int longueur_nouvel_element = strlen(nouvel_element); 
+  // Comptage du nombre d'occurence de l'ancien element
+  for (i = 0; nom_chaine[i] != '\0'; i++) { 
+    if (strstr(&nom_chaine[i], ancien_element) == &nom_chaine[i]) { 
+      j++;  
+      i += longueur_ancien_element - 1; 
+    } 
+  } 
+  // Création d'une chaine de caractères de longueur suffisante 
+  ligne_modifiee = (char*)malloc(i + j * (longueur_nouvel_element - longueur_ancien_element) + 1); 
+  i = 0; 
+  while (*nom_chaine) { 
+  // Modifie les deux elements et renvoie une chaine avec les element echangés
+    if (strstr(nom_chaine, ancien_element) == nom_chaine) { 
+      strcpy(&ligne_modifiee[i], nouvel_element); 
+        i += longueur_nouvel_element; 
+        nom_chaine += longueur_ancien_element; 
+      } else {
+        ligne_modifiee[i++] = *nom_chaine++;
+      } 
+  } 
+  ligne_modifiee[i] = '\0'; 
+  // Retourne la ligne modifiée pour qu'elle puisse ensuite être écrite
+  return ligne_modifiee;
+  // Libère l'espace mémoire alloué précedemment avec malloc
+  free(ligne_modifiee); 
+} 
+
+FILE* chargement_annuaire_clients(const char* nom_annuaire)
+{
+  // Auteur : Clement LE GOASTER
+  FILE* file = fopen(nom_annuaire, "r");
+  if (file == NULL) {
+    printf("Impossible d'ouvrir l'annuaire\n");
+    return NULL; // Erreur car il est impossible d'ouvrir l'annuaire
+  }
+  return file;
+}
+
+FILE* ecriture_annuaire_clients(const char* nom_fichier, const char* mode_ecriture)
+{
+  // Auteur : Clement LE GOASTER
+  FILE* sortie = fopen(nom_fichier, mode_ecriture);
+  if (sortie == NULL) {
+    printf("Impossible de créer/ouvrir le fichier de sortie (.txt)\n");
+    return NULL; // Erreur car il est impossible de créer/ouvrir le fichier de sortie
+  }
+  return sortie;
+}
+
+int afficher_annuaire_clients(const char* nom_annuaire)
+{
+  // Auteur : Aziz MELLITI
+  int retour = verifier_validite_annuaire_client(nom_annuaire);
+  if (retour == -1 || retour == -3 || retour == -4) {
+    return -1; // L'annuaire n'est pas valide
+  }
+  printf("\n");
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
+  // Nous allons afficher le contenu du fichier
+  char line[1024]; //la variable "line" peut prendre jusqu'� 1024 donn�es, ce qui est suffisant
+  while (fgets(line, sizeof(line), file) != NULL) {
+    // Tokenize the line
+    char* token = strtok(line, ",");
+    while (token != NULL) {
+      // Print the token
+      printf("%s ", token);
+      // Get the next token
+      token = strtok(NULL, ",");
+      }
+    // Print a newline after each line
+    printf("\n");
+    }
+  fclose(file);
+  return 0;
+}
+
+int verifier_validite_annuaire_client(const char* nom_annuaire)
+{
+  // Auteur : Clement LE GOASTER
+  // A faire : - pas de mail vide ; - pas de doublons sur les emails
+  int i = 0;
+  if (!strstr(nom_annuaire, ".csv")) { // Cherche si l'extention .csv est bien présente dans le nom de l'annuaire
+    printf("L'annuaire n'est pas au format .csv : invalide\n");
+    return -1;
+  } 
+  FILE* file = chargement_annuaire_clients(nom_annuaire);
+  if (file == NULL) {
+    return -2; // Erreur lors de la lecture / ecriture de l'annuaire
+  }
+  char line[1024];
+  fgets(line, 1024, file);
+  if (feof(file)) { // Cherche si la fin du fichier est directement sur la première ligne
+    printf("L'annuaire n'est pas valide : il est vide\n");
+    return -3;
+  }
+  while (fgets(line, 1024, file)) {
+    if (!strstr(line, ",")) { // Cherche les commentaires séparateurs sur toutes les lignes du fichier
+      i = 1;
+    }
+  }
+  if (i == 1) {
+    printf("L'annuaire csv n'est pas valide : il manque des caractères séparateurs sur une/des lignes de l'annuaire\n");
+    return -4;
+  }
+  return 0;
 }

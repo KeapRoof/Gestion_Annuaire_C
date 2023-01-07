@@ -10,10 +10,11 @@ Ces packages sont nécessaires pour la compilation du projet.
 
 - **gcc**
 - **cmake**
+- **make** (seulement sous Linux / MacOS)
 
 Pour installer ces packages sous une distribution debian :
 ```
-sudo apt install gcc cmake;
+sudo apt install gcc make cmake;
 ```
 Pour installer ces packages sous Windows :
 
@@ -27,10 +28,12 @@ Pour compiler le programme et obtenir un fichier executable, il faut invoquer cm
 Sous Linux / MacOS :
 ```
 cmake .
+make
 ```
 Sous Windows :
 ```
-cmake --build
+cmake -S /path/to/source-dir -B /path/to/build-dir
+cmake --build /path/to/build-dir --config Release
 ```
 
 ## Utilisation
