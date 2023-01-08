@@ -39,3 +39,13 @@ cmake --build /path/to/build-dir --config Release
 ## Utilisation
 
 Une documentation Doxygen permet de voir l'utilité et une description des fonctions contenues dans ce programme.
+
+Elle se trouve dans le dossier `html` du projet, il suffit de lancer `index.html` dans un navigateur.
+
+```
+Chemin complet : html/index.html
+```
+
+## Git
+
+Voici le lien vers notre projet sur GitLab : https://forge.univ-lyon1.fr/p2205078/sae-c

@@ -121,3 +121,6 @@ int modifier_autres_que_mel_client(const char* nom_annuaire, const char* mel_p, 
  * @return int 
  */
 int filtrer_clients_donnees_manquantes(const char *nom_annuaire);
+
+// // Cette fonction ne marche pas, c'est un prototype !
+// void filtrer_combiner_deux_champs(char *nom_annuaire, char *nom_champ1, char *nom_champ2, char *val_chaine1, char *val_chaine2);
