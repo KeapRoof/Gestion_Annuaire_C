@@ -41,7 +41,7 @@ int main(void) {
 
     int choix;
     int quit = 0;
-    system("COLOR 0A");
+    // system("COLOR 0A");
 
     while (quit == 0) {
         printf("\n");

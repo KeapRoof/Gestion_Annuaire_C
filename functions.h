@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <conio.h>
+// #include <conio.h>
 
 /**
  * @brief Permet d'ajouter des clients dans l'annuaire

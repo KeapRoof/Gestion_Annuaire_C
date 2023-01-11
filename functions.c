@@ -339,6 +339,7 @@ int filtrer_clients_donnees_manquantes(const char *nom_annuaire) {
 }
 
 void filtrer_un_champ(char *nom_annuaire, char *nom_champ, char *val_chaine){
+    // Auteur : Haithem
     // Création de la structure client
     struct Client {
         char nom[50];
