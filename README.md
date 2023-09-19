@@ -1,6 +1,6 @@
 # Notice - api_annuaire
 
-**Groupe : Haitem, Aziz, Clément**
+**Groupe : Haithem, Aziz, Clément**
 
 **Description** : programme en C permettant de lire un annuaire et de l'administrer (tri, insertion, suppression...)
 
@@ -45,7 +45,3 @@ Elle se trouve dans le dossier `html` du projet, il suffit de lancer `index.html
 ```
 Chemin complet : html/index.html
 ```
-
-## Git
-
-Voici le lien vers notre projet sur GitLab : https://forge.univ-lyon1.fr/p2205078/sae-c
